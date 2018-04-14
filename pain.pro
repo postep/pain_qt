@@ -25,10 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    boardmodel.cpp \
+    pawndelegate.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    boardmodel.h \
+    pawndelegate.h
 
 FORMS += \
         mainwindow.ui
