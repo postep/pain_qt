@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <boardmodel.h>
+#include <pawndelegate.h>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,7 @@ public:
 private:
     Ui::MainWindow *ui;
     BoardModel *board;
+    PawnDelegate *pawnDelegate;
 };
 
 #endif // MAINWINDOW_H

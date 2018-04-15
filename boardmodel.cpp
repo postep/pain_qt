@@ -12,13 +12,18 @@ BoardModel::BoardModel(QObject *parent):QStandardItemModel(8, 8, parent)
 
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            if (i <= 2 && this->isBlackField(i, j)){
-                this->setData(this->index(i, j), WhitePawn);
-            } else if (i >= 6 && this->isBlackField(i, j)){
-                this->setData(this->index(i, j), BlackPawn);
-            } else{
-                this->setData(this->index(i, j), Empty);
+            if (this->isBlackField(i, j)){
+                if(i <= 2){
+                    this->setData(this->index(i, j), QVariant::fromValue(Pawn(PawnState::WhitePawn)));
+                }else if (i >= 6){
+                    this->setData(this->index(i, j), QVariant::fromValue(Pawn(PawnState::BlackPawn)));
+                }else{
+                    this->setData(this->index(i, j), QVariant::fromValue(Pawn(PawnState::Empty)));
+                }
+            }else{
+                this->setData(this->index(i, j), QVariant::fromValue(Pawn(PawnState::Unused)));
             }
+
         }
     }
 }

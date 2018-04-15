@@ -27,12 +27,15 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     boardmodel.cpp \
-    pawndelegate.cpp
+    pawndelegate.cpp \
+    pawn.cpp
 
 HEADERS += \
         mainwindow.h \
     boardmodel.h \
-    pawndelegate.h
+    pawndelegate.h \
+    pawn.h \
+    pawnstate.h
 
 FORMS += \
         mainwindow.ui
