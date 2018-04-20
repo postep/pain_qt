@@ -1,13 +1,13 @@
-#ifndef PAWNDELEGATE_H
-#define PAWNDELEGATE_H
+#ifndef FIELDDELEGATE_H
+#define FIELDDELEGATE_H
 
-#include <QStyledItemDelegate>
-#include <pawn.h>
+#include <QAbstractItemDelegate>
+#include <QPainter>
 
-class PawnDelegate : public QStyledItemDelegate
+class FieldDelegate : public QAbstractItemDelegate
 {
 public:
-    PawnDelegate(QWidget *parent = 0);
+    FieldDelegate(QObject *parent = nullptr);
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option,
@@ -18,9 +18,8 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model,
                       const QModelIndex &index) const override;
 
-private slots:
-    void commitAndCloseEditor();
+private:
+    QPixmap *blackPawn;
 };
 
-
-#endif // PAWNDELEGATE_H
+#endif // FIELDDELEGATE_H

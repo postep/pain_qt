@@ -6,13 +6,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     this->board = new BoardModel(this);
-    this->pawnDelegate = new PawnDelegate(this);
+    this->delegate = new FieldDelegate(this);
 
     ui->setupUi(this);
+    //ui->verticalLayout->removeWidget(ui->boardView);
+    //ui->boardView->deleteLater();
+    //ui->boardView = new BoardView(this);
+    //ui->verticalLayout->addWidget(ui->boardView);
 
     ui->boardView->setModel(this->board);
-    for(int i=0; i < ui->boardView->model()->rowCount(); i++){
-        ui->boardView->setItemDelegateForRow(i, this->pawnDelegate);
+    ui->boardView->setItemDelegate(this->delegate);
+    for(int i = 0; i < ui->boardView->horizontalHeader()->count(); ++i){
+        ui->boardView->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
+    }
+    for(int i = 0; i < ui->boardView->verticalHeader()->count(); ++i){
+        ui->boardView->verticalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
     }
 }
 

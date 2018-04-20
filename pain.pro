@@ -27,15 +27,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     boardmodel.cpp \
-    pawndelegate.cpp \
-    pawn.cpp
+    fielddelegate.cpp \
+    boardview.cpp
 
 HEADERS += \
         mainwindow.h \
     boardmodel.h \
-    pawndelegate.h \
-    pawn.h \
-    pawnstate.h
+    fieldstate.h \
+    fielddelegate.h \
+    boardview.h
 
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
