@@ -3,6 +3,9 @@
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
+#include <QDebug>
+#include <QEvent>
+#include <fieldstate.h>
 
 class FieldDelegate : public QAbstractItemDelegate
 {
@@ -18,8 +21,16 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model,
                       const QModelIndex &index) const override;
 
+    bool event(QEvent *event);
+
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
+
 private:
     QPixmap *blackPawn;
+    QPixmap *whitePawn;
+    QPixmap *empty;
+    QPixmap *possible;
+    QWidget *widget;
 };
 
 #endif // FIELDDELEGATE_H

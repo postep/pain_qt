@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->boardView->setModel(this->board);
     ui->boardView->setItemDelegate(this->delegate);
+    ui->boardView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->boardView->setDragEnabled(true);
+    ui->boardView->setAcceptDrops(true);
+    ui->boardView->setDropIndicatorShown(true);
     for(int i = 0; i < ui->boardView->horizontalHeader()->count(); ++i){
         ui->boardView->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
     }

@@ -2,5 +2,9 @@
     <qresource prefix="/img">
         <file>res/black.jpg</file>
         <file>res/white.jpg</file>
+        <file>res/black2.png</file>
+        <file>res/empty2.png</file>
+        <file>res/white2.png</file>
+        <file>res/emptyh.png</file>
     </qresource>
 </RCC>
