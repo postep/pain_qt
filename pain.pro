@@ -36,7 +36,8 @@ HEADERS += \
     boardmodel.h \
     fieldstate.h \
     fielddelegate.h \
-    boardview.h
+    boardview.h \
+    gamestate.h
 
 FORMS += \
         mainwindow.ui

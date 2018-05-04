@@ -2,6 +2,8 @@
 #define BOARDVIEW_H
 
 #include <QTableView>
+#include <QPaintEvent>
+#include <QWidget>
 
 class BoardView : public QTableView
 {

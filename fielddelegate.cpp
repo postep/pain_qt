@@ -8,11 +8,13 @@ FieldDelegate::FieldDelegate(QObject *parent):QAbstractItemDelegate(parent)
     this->possible = new QPixmap(":/img/res/emptyh.png");
 
     this->widget = new QWidget();
+    this->opacity = 1.0;
 }
 
 void FieldDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->save();
+    painter->setOpacity(this->opacity);
     if (index.data().value<FieldState>() == WhitePawn){
         painter->drawPixmap(option.rect, *(this->whitePawn));
     }
@@ -22,7 +24,12 @@ void FieldDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     if (index.data().value<FieldState>() == Empty){
-        painter->drawPixmap(option.rect, *(this->empty));
+        QVariant possible = index.model()->data(index, Qt::UserRole);
+        if(possible.value<bool>()){
+            painter->drawPixmap(option.rect, *(this->possible));
+        }else{
+            painter->drawPixmap(option.rect, *(this->empty));
+        }
     }
     painter->restore();
 }
@@ -56,12 +63,21 @@ bool FieldDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const 
 {
     int e = event->type();
     if (e == QEvent::MouseButtonPress){
-        //wyliczenie ktore pola do ruszenia
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "opacity");
+        animation->setDuration(1000);
+        animation->setStartValue(1.0);
+        animation->setEndValue(0.0);
+        connect(animation, SIGNAL(valueChanged(QVariant)), this, SLOT(changeOpacity()));
+        animation->start();
+        BoardModel* bm = (BoardModel*)model;
+        bm->handleMove(index.row(), index.column());
         return false;
-    }else if (e == QEvent::MouseButtonRelease){
-        //usuniecie z modelu
-        return false;
+
     }else{
         return QAbstractItemDelegate::editorEvent(event, model, option, index);
     }
+}
+
+void FieldDelegate::changeOpacity()
+{
 }

@@ -9,26 +9,48 @@ MainWindow::MainWindow(QWidget *parent) :
     this->delegate = new FieldDelegate(this);
 
     ui->setupUi(this);
-    //ui->verticalLayout->removeWidget(ui->boardView);
-    //ui->boardView->deleteLater();
-    //ui->boardView = new BoardView(this);
-    //ui->verticalLayout->addWidget(ui->boardView);
+    ui->gridLayout->removeWidget(ui->boardView);
+    ui->boardView->deleteLater();
+    ui->boardView = new BoardView(this);
+    ui->gridLayout->addWidget(ui->boardView, 0, 0);
 
     ui->boardView->setModel(this->board);
     ui->boardView->setItemDelegate(this->delegate);
-    ui->boardView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    ui->boardView->setDragEnabled(true);
-    ui->boardView->setAcceptDrops(true);
-    ui->boardView->setDropIndicatorShown(true);
-    for(int i = 0; i < ui->boardView->horizontalHeader()->count(); ++i){
-        ui->boardView->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
-    }
-    for(int i = 0; i < ui->boardView->verticalHeader()->count(); ++i){
-        ui->boardView->verticalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
-    }
+
+    connect(ui->pushButton, SIGNAL(clicked(bool)), this->board, SLOT(init()));
+    connect(this->board, SIGNAL(stateChanged(GameState)), this, SLOT(onGameStateChange(GameState)));
+    this->board->init();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onGameStateChange(GameState gs)
+{
+    if(gs == WhiteTurn){
+        ui->label->setText("Ruch białych");
+    }
+    if(gs == BlackTurn){
+        ui->label->setText("Ruch czarnych");
+    }
+    if(gs == BlackWin){
+        ui->label->setText("Wygrana czarnych");
+    }
+    if(gs == WhiteWin){
+        ui->label->setText("Wygrana białych");
+    }
+}
+
+
+
+void MainWindow::on_actionUstawienia_triggered()
+{
+    ui->label->setVisible(!ui->label->isVisible());
+}
+
+void MainWindow::on_actionZamknij_triggered()
+{
+    this->deleteLater();
 }

@@ -7,13 +7,15 @@
 #include <QPair>
 #include <Qt>
 #include <QModelIndexList>
-#include <QMimeData>
-#include <QIODevice>
-#include <QDataStream>
+#include <gamestate.h>
+#include <math.h>
+#include <QObject>
 
 
 class BoardModel : public QAbstractTableModel
 {
+Q_OBJECT
+
 public:
     BoardModel(QObject* parent=nullptr);
     bool isBlackField(int row, int col);
@@ -21,16 +23,28 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
-    Qt::DropActions supportedDropActions() const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-    QMimeData *mimeData(const QModelIndexList &indexes) const;
-    QStringList mimeTypes() const;
-    QHash<int, QByteArray> roleNames();
+    void setPossibles(int row, int col);
+    void clearPossibles();
+    bool havePossibles();
+    void makeMove(int row, int col);
+    GameState gs;
+    QPair<int, int> nextLeftField(int row, int col, bool reverse);
+    QPair<int, int> nextRightField(int row, int col, bool reverse);
+    bool validField(QPair<int, int> f);
+    FieldState oppositeTeam(FieldState fs);
+    void handleMove(int row, int col);
+
+public slots:
+    void init();
+
+signals:
+    void stateChanged(GameState gs);
 
 private:
     FieldState fields[8][8];
     bool canMove[8][8];
+    bool _possibles;
+    int _clickedRow, _clickedCol;
 };
 
 #endif // BOARDMODEL_H
